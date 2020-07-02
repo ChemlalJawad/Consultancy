@@ -19,8 +19,13 @@ namespace Consultancy.UnitTesting
 
         private void Seed()
         {
-          
 
+            using (var context = new ConsultingContext(ContextOptions))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+                //context.SaveChanges();
+            }
         }
     }
 }

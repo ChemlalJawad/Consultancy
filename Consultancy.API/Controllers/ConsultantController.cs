@@ -32,6 +32,7 @@ namespace Consultancy.API.Controllers
 
             return Ok(consultants);
         }
+
         [HttpGet("{id}")]
         public ActionResult<Consultant> GetById([FromRoute] int id)
         {

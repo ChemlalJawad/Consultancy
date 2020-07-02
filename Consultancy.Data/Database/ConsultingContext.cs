@@ -13,10 +13,7 @@ namespace Consultancy.Data.Database
         public DbSet<Mission> Missions { get; set; }
         public DbSet<ConsultantMission> ConsultantMissions { get; set; }
         public ConsultingContext(DbContextOptions<ConsultingContext> options) : base(options) { }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ConsultantMission>()

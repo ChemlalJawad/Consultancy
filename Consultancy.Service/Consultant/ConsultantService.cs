@@ -27,7 +27,6 @@ namespace Consultancy.Service.Consultant
                .Include(m => m.ConsultantMissions)
                .ThenInclude(m => m.Mission)
                .FirstOrDefault(c => c.Id == id);
-
         }
     }
 }

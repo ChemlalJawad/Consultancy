@@ -64,9 +64,9 @@ namespace Consultancy.API.Controllers
         public ActionResult AddConsultant([FromRoute] int missionId, [FromBody] AddConsultant consultant)
         {
             consultant.MissionId = missionId;
-            var consultantMission = _missionService.AddConsultant(consultant);
+            var consultantMissionModel = _missionService.AddConsultant(consultant);
 
-            return Ok(consultantMission);
+            return Ok(consultantMissionModel);
         }
 
     }

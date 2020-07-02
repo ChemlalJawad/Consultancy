@@ -28,10 +28,10 @@ namespace Consultancy.Service.Mission
             if (mission == null) throw new ValidException(ErrorVariable.MISSION_NOT_EXIST);
 
             var consult = _consultingContext.Consultants.FirstOrDefault(e => e.Id == consultant.ConsultantId);
-            if (consultant == null) throw new ValidException(ErrorVariable.CONSULTANT_NOT_EXIST);
+            if (consult == null) throw new ValidException(ErrorVariable.CONSULTANT_NOT_EXIST);
 
             if(mission.ExperienceRequired > consult.Experience) throw new ValidException(ErrorVariable.EXPERIENCE_REQUIRED);
-            if(mission.MaximumRate < (consultant.Rate * GetCommission(consult.Experience))) throw new ValidException(ErrorVariable.RATE_REQUIRED);
+            if(mission.MaximumRate > (consultant.Rate * GetCommission(consult.Experience))) throw new ValidException(ErrorVariable.RATE_REQUIRED);
 
             var lastMissionConsult = _consultingContext.ConsultantMissions
                 .Where(e => e.ConsultantId == consultant.ConsultantId)
@@ -62,8 +62,6 @@ namespace Consultancy.Service.Mission
                 .Include(m => m.ConsultantMissions)
                 .ThenInclude(cm => cm.Consultant)
                 .ToList();
-            if (missions == null) throw new ValidException(ErrorVariable.MISSION_NOT_EXIST);
-
                 
             return missions;
         }
