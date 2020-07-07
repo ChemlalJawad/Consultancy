@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Consultancy.Core.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,10 +15,16 @@ namespace Consultancy.API.ViewModels.Mission
 
         public double GetDailyIncome()
         {
+            var commissions = new Dictionary<Experience, double>
+            {
+                [Experience.Junior] = 1.15,
+                [Experience.Medior] = 1.10,
+                [Experience.Senior] = 1.05,
+            };      
             var total = 0.00;
             foreach (var consultant in Consultants)
             {
-                total += consultant.Rate * consultant.GetCommission();
+                total += consultant.Rate * commissions.GetValueOrDefault(consultant.Experience);
             }
             return Math.Round(total, 2);
 

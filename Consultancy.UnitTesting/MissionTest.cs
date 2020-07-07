@@ -8,7 +8,7 @@ using Xunit;
 using Consultancy.Core.Exceptions;
 using Consultancy.Core.Const;
 using NUnit.Framework;
-using Consultancy.Core.Domains;
+using Consultancy.Core.Domain;
 
 namespace Consultancy.UnitTesting
 {
@@ -29,14 +29,14 @@ namespace Consultancy.UnitTesting
                 var service = new MissionService(context);
                // context.ConsultantMissions.Add(new ConsultantMission { Id = 3, ConsultantId = 1, MissionId = 1, JobName = "Jaja", Rate = 400.00, isActive = true });
                 //context.SaveChanges();
-                var addConsultant = new AddConsultant
+                var addConsultant = new AddConsultantRequest
                 {
                     ConsultantId = 1,
                     MissionId = 1,
                     Rate = 400.00
                 };
                 Action action = () => service.AddConsultant(addConsultant);
-                action.Should().ThrowExactly<ValidException>().WithMessage(ErrorVariable.JOBNAME_NOT_EXIST);
+                action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.JobnameNotExist);
             }
         }
         
@@ -48,14 +48,14 @@ namespace Consultancy.UnitTesting
                 var service = new MissionService(context);
                 //context.ConsultantMissions.Add(new ConsultantMission { Id = 2, ConsultantId = 3, MissionId = 3, JobName = "Jaja", Rate = 400.00, isActive = true });
                 //context.SaveChanges();
-                var addConsultant = new AddConsultant
+                var addConsultant = new AddConsultantRequest
                 {
                     ConsultantId = 3,
                     MissionId = 3,
                     JobName = "Java Dev"
                 };
                 Action action = () => service.AddConsultant(addConsultant);
-                action.Should().ThrowExactly<ValidException>().WithMessage(ErrorVariable.RATE_NOT_EXIST);
+                action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.RateIsNotCompleted);
             }
         }  
         
@@ -68,7 +68,7 @@ namespace Consultancy.UnitTesting
                 //context.ConsultantMissions.Add(new ConsultantMission { Id = 1, ConsultantId = 1, MissionId = 1, JobName = "Jaja", Rate = 400.00, isActive = true });
                 //context.SaveChanges();
                 
-                var addConsultant = new AddConsultant
+                var addConsultant = new AddConsultantRequest
                 {
                     ConsultantId = 1,
                     MissionId = 20,
@@ -77,7 +77,7 @@ namespace Consultancy.UnitTesting
                 };
 
                 Action action = () => service.AddConsultant(addConsultant);
-                action.Should().ThrowExactly<ValidException>().WithMessage(ErrorVariable.MISSION_NOT_EXIST);
+                action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.MissioNotExist);
             }           
         }        
 
@@ -87,7 +87,7 @@ namespace Consultancy.UnitTesting
             using (var context = new ConsultingContext(ContextOptions))
             {
                 var service = new MissionService(context);               
-                var addConsultant = new AddConsultant
+                var addConsultant = new AddConsultantRequest
                 {
                     ConsultantId = 40,
                     MissionId = 1,
@@ -96,7 +96,7 @@ namespace Consultancy.UnitTesting
                 };
 
                 Action action = () => service.AddConsultant(addConsultant);
-                action.Should().ThrowExactly<ValidException>().WithMessage(ErrorVariable.CONSULTANT_NOT_EXIST);
+                action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.ConsultantNotExist);
             }           
         }
 
@@ -106,7 +106,7 @@ namespace Consultancy.UnitTesting
             using (var context = new ConsultingContext(ContextOptions))
             {
                 var service = new MissionService(context);               
-                var addConsultant = new AddConsultant
+                var addConsultant = new AddConsultantRequest
                 {
                     ConsultantId = 1,
                     MissionId = 1,
@@ -115,7 +115,7 @@ namespace Consultancy.UnitTesting
                 };
 
                 Action action = () => service.AddConsultant(addConsultant);
-                action.Should().ThrowExactly<ValidException>().WithMessage(ErrorVariable.EXPERIENCE_REQUIRED);
+                action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.ExperienceMinimumRequired);
             }           
         }
 
@@ -125,7 +125,7 @@ namespace Consultancy.UnitTesting
             using (var context = new ConsultingContext(ContextOptions))
             {
                 var service = new MissionService(context);               
-                var addConsultant = new AddConsultant
+                var addConsultant = new AddConsultantRequest
                 {
                     ConsultantId = 3,
                     MissionId = 3,
@@ -136,7 +136,7 @@ namespace Consultancy.UnitTesting
                 var result = service.AddConsultant(addConsultant);
                 result.ConsultantId.Should().Be(3);
                 result.MissionId.Should().Be(3);
-                result.isActive.Should().Be(true);
+                result.IsActive.Should().Be(true);
                 result.Rate.Should().Be(500.00);
             }           
         }

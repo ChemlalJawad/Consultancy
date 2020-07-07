@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Consultancy.API.ViewModels.Consultant;
-using Consultancy.Core.Domains;
+using Consultancy.Core.Domain;
 using Consultancy.Service.Consultant;
 using Consultancy.Service.Mission;
 using Microsoft.AspNetCore.Http;
@@ -25,18 +25,10 @@ namespace Consultancy.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public ActionResult<List<Consultant>> GetAll()
-        {
-            var consultants = _consultantService.GetAll();
-
-            return Ok(consultants);
-        }
-
         [HttpGet("{id}")]
         public ActionResult<Consultant> GetById([FromRoute] int id)
         {
-            var consultant = _consultantService.HistoryMissions(id);
+            var consultant = _consultantService.GetHistoryMissions(id);
             var consultantModel = _mapper.Map<HistoryConsultantProfile>(consultant);
             return Ok(consultantModel);
         }

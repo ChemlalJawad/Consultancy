@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Consultancy.Core.Domains
+namespace Consultancy.Core.Domain
 {
-    public class Mission
+    public class Consultant
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public double MaximumRate { get; set; }
-        public Experience ExperienceRequired { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public Experience Experience { get; set; }
         public ICollection<ConsultantMission> ConsultantMissions { get; set; }
     }
 }

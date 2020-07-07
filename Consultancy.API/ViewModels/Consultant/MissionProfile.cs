@@ -10,6 +10,6 @@ namespace Consultancy.API.ViewModels.Consultant
         public string Name { get; set; }
         public double Rate { get; set; }
         public string JobName { get; set; }
-        public bool isActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

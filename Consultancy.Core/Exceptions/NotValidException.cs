@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Consultancy.Core.Exceptions
 {
-    public class ValidException : Exception
+    public class NotValidException : Exception
     {
-        public ValidException(string message) : base(message) { }
+        public NotValidException(string message) : base(message) { }
     }
 }
