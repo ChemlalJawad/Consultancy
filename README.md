@@ -7,7 +7,6 @@ Consultancy was built from an ASP.NET WEB Project with a JSON API.
 Method | URL | Details
 ----|-------------------- | -------------------------
 GET| /api/missions | Get all missions with details
-GET| /api/consultants| Get all details for each consultants
 GET| /api/consultants/{id}| Get details for a consultant
 POST| /api/{missionId}/consultants| Add a mission for a consultant
 
