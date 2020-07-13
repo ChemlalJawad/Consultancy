@@ -1,5 +1,5 @@
 ﻿using Consultancy.Core.Const;
-using Consultancy.Core.Domains;
+using Consultancy.Core.Domain;
 using Consultancy.Core.Enum;
 using Consultancy.Core.Exceptions;
 using Consultancy.Data.Database;
@@ -19,44 +19,48 @@ namespace Consultancy.Service.Mission
             _consultingContext = consultingContext;
         }
 
-        public ConsultantMission AddConsultant(AddConsultant consultant)
+        public ConsultantMission AddConsultant(AddConsultantRequest consultant)
         {
-            if (consultant.JobName == null) throw new ValidException(ErrorVariable.JOBNAME_NOT_EXIST);
-            if (consultant.Rate == default) throw new ValidException(ErrorVariable.RATE_NOT_EXIST);
+            if (consultant.JobName == null) throw new NotValidException(ErrorVariable.JobnameNotExist);
+            if (consultant.Rate == default) throw new NotValidException(ErrorVariable.RateIsNotCompleted);
 
             var mission = _consultingContext.Missions.FirstOrDefault(e => e.Id == consultant.MissionId);
-            if (mission == null) throw new ValidException(ErrorVariable.MISSION_NOT_EXIST);
+            if (mission == null) throw new NotValidException(ErrorVariable.MissioNotExist);
 
             var consult = _consultingContext.Consultants.FirstOrDefault(e => e.Id == consultant.ConsultantId);
-            if (consult == null) throw new ValidException(ErrorVariable.CONSULTANT_NOT_EXIST);
+            if (consult == null) throw new NotValidException(ErrorVariable.ConsultantNotExist);
 
-            if(mission.ExperienceRequired > consult.Experience) throw new ValidException(ErrorVariable.EXPERIENCE_REQUIRED);
-            if(mission.MaximumRate > (consultant.Rate * GetCommission(consult.Experience))) throw new ValidException(ErrorVariable.RATE_REQUIRED);
+            if (mission.ExperienceRequired > consult.Experience) throw new NotValidException(ErrorVariable.ExperienceMinimumRequired);
+            var commissions = new Dictionary<Experience, double> 
+            {
+                [Experience.Junior] = 1.15,
+                [Experience.Medior] = 1.10,
+                [Experience.Senior] = 1.05
+            };
+            if (mission.MaximumRate > (consultant.Rate * commissions.GetValueOrDefault(consult.Experience))) throw new NotValidException(ErrorVariable.RateMaximumRequired);
 
             var lastMissionConsult = _consultingContext.ConsultantMissions
                 .Where(e => e.ConsultantId == consultant.ConsultantId)
-                .SingleOrDefault(e => e.isActive);
-           
-            if(lastMissionConsult == null) throw new ValidException(ErrorVariable.MISSION_NOT_EXIST);
-            lastMissionConsult.isActive = false;
+                .SingleOrDefault(e => e.IsActive);
+
+            lastMissionConsult.IsActive = false;
 
             var newConsultantMission = new ConsultantMission
             {
                 ConsultantId = consultant.ConsultantId,
                 MissionId = consultant.MissionId,
-                isActive = true,
+                IsActive = true,
                 JobName = consultant.JobName,
                 Rate = consultant.Rate
             };
 
-            _consultingContext.ConsultantMissions.Update(lastMissionConsult);
             _consultingContext.ConsultantMissions.Add(newConsultantMission);
             _consultingContext.SaveChanges();
 
             return newConsultantMission;
         }
 
-        public List<Core.Domains.Mission> GetMissions()
+        public IEnumerable<Core.Domain.Mission> GetMissions()
         {
             var missions = _consultingContext.Missions
                 .Include(m => m.ConsultantMissions)
@@ -64,16 +68,6 @@ namespace Consultancy.Service.Mission
                 .ToList();
                 
             return missions;
-        }
-        public double GetCommission(Experience x)
-        {
-            switch (x)
-            {
-                case Experience.Junior: return 1.15;
-                case Experience.Medior: return 1.10;
-                case Experience.Senior: return 1.05;
-            }
-            return 0;
         }
     }
 }

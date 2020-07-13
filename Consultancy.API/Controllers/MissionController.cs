@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Consultancy.API.ViewModels.Mission;
-using Consultancy.Core.Domains;
+using Consultancy.Core.Domain;
 using Consultancy.Service.Mission;
 using Consultancy.Service.Mission.Request;
 using Microsoft.AspNetCore.Http;
@@ -26,42 +26,25 @@ namespace Consultancy.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Mission>> GetMissions()
+        public ActionResult<IEnumerable<GetMissionsProfile>> GetMissions()
         {
             var missions = _missionService.GetMissions();
-
-            var missionProfile = new List<MissionProfile>();
-            foreach (var mission in missions)
+            
+            foreach(var item in missions.ToList()) 
             {
-                foreach (var x in mission.ConsultantMissions)
-                {
-                    if (x.isActive)
-                    {
-                        missionProfile.Add(new MissionProfile
-                        {
-                            Consultants = new List<ConsultantProfile> {
-                                 new ConsultantProfile()
-                                 {
-                                     Rate = x.Rate,
-                                     Experience = x.Consultant.Experience,
-                                     Firstname = x.Consultant.Firstname,
-                                     Lastname = x.Consultant.Lastname,
-                                     JobName = x.JobName
-                                 }
-                        }});
-                    }
-                }
+                item.ConsultantMissions = item.ConsultantMissions.Where(e => e.IsActive).ToList();
             }
             var missionModel = new GetMissionsProfile()
             {
-                Missions = _mapper.Map<List<MissionProfile>>(missionProfile)
+                Missions = _mapper.Map<List<MissionProfile>>(missions)
             };
+
             return Ok(missionModel);
         } 
         
         [HttpPost]
         [Route("{missionId}/consultants")]
-        public ActionResult AddConsultant([FromRoute] int missionId, [FromBody] AddConsultant consultant)
+        public ActionResult AddConsultant([FromRoute] int missionId, [FromBody] AddConsultantRequest consultant)
         {
             consultant.MissionId = missionId;
             var consultantMissionModel = _missionService.AddConsultant(consultant);

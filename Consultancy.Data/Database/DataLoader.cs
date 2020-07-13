@@ -1,4 +1,4 @@
-﻿using Consultancy.Core.Domains;
+﻿using Consultancy.Core.Domain;
 using Consultancy.Core.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -62,7 +62,7 @@ namespace Consultancy.Data.Database
                     ConsultantId = 1,
                     MissionId = 3,
                     Rate = 400.00,
-                    isActive = true,
+                    IsActive = true,
                     JobName = "Dev"
                 },
                 new
@@ -71,7 +71,7 @@ namespace Consultancy.Data.Database
                     ConsultantId = 2,
                     MissionId = 1,
                     Rate = 400.00,
-                    isActive = true,
+                    IsActive = true,
                     JobName = "Consultant"
                 },
                 new
@@ -80,7 +80,7 @@ namespace Consultancy.Data.Database
                     ConsultantId = 2,
                     Rate = 400.00,
                     MissionId = 3,
-                    isActive = false,
+                    IsActive = false,
                     JobName = "Dev"
 
                 },
@@ -90,7 +90,7 @@ namespace Consultancy.Data.Database
                     ConsultantId = 3,
                     Rate = 400.00,
                     MissionId = 2,
-                    isActive = false,
+                    IsActive = false,
                     JobName = "Dev"
                 },
                 new
@@ -99,7 +99,7 @@ namespace Consultancy.Data.Database
                     ConsultantId = 3,
                     MissionId = 3,
                     Rate = 500.00,
-                    isActive = true,
+                    IsActive = true,
                     JobName = "Dev"
                 },
                 new
@@ -108,7 +108,7 @@ namespace Consultancy.Data.Database
                     ConsultantId = 3,
                     MissionId = 1,
                     Rate = 400.00,
-                    isActive = false,
+                    IsActive = false,
                     JobName = "Dev"
                 }
                 );

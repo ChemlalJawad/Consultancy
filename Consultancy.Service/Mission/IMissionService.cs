@@ -1,4 +1,4 @@
-﻿using Consultancy.Core.Domains;
+﻿using Consultancy.Core.Domain;
 using Consultancy.Service.Mission.Request;
 using System.Collections.Generic;
 
@@ -6,7 +6,7 @@ namespace Consultancy.Service.Mission
 {
     public interface IMissionService
     {
-        List<Core.Domains.Mission> GetMissions();
-        ConsultantMission AddConsultant(AddConsultant consultant);
+        IEnumerable<Core.Domain.Mission> GetMissions();
+        ConsultantMission AddConsultant(AddConsultantRequest consultant);
     }
 }

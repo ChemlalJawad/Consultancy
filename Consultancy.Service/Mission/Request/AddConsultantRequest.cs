@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Consultancy.Core.Domains
+namespace Consultancy.Service.Mission.Request
 {
-    public class ConsultantMission
+    public class AddConsultantRequest
     {
-        public int Id { get; set; }
         public int ConsultantId { get; set; }
-        public Consultant Consultant { get; set; }
         public int MissionId { get; set; }
-        public Mission Mission { get; set; }
         public double Rate { get; set; }
         public string JobName { get; set; }
-        public bool isActive { get; set; }
     }
 }

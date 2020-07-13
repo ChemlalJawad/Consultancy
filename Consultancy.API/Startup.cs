@@ -21,7 +21,6 @@ namespace Consultancy.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -32,14 +31,13 @@ namespace Consultancy.API
 
             services.AddDbContext<ConsultingContext>(options =>
             {
-                options.UseSqlServer(@"Data Source=DESKTOP-5ARGQ5B\MSSQLSERVER01;Initial Catalog=localdb;Integrated Security=True");
+                options.UseSqlServer(Configuration.GetSection("ConsultancyDatabase").Value.ToString());
             });
             services.AddScoped<IMissionService, MissionService>();
             services.AddScoped<IConsultantService, ConsultantService>();
             services.AddAutoMapper(typeof(ConsultantMapperProfile));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

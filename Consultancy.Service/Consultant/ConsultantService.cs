@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Consultancy.Data.Database;
+﻿using Consultancy.Data.Database;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Consultancy.Service.Consultant
@@ -15,13 +13,7 @@ namespace Consultancy.Service.Consultant
             _consultingContext = consultingContext;
         }
 
-        public List<Core.Domains.Consultant> GetAll()
-        {
-            return _consultingContext.Consultants
-                .ToList();
-        }
-
-        public Core.Domains.Consultant HistoryMissions(int id)
+        public Core.Domain.Consultant GetHistoryMissions(int id)
         {
             return  _consultingContext.Consultants
                .Include(m => m.ConsultantMissions)
