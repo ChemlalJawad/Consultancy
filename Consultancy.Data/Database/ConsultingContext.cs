@@ -27,8 +27,6 @@ namespace Consultancy.Data.Database
                 .HasForeignKey(cm => cm.MissionId);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            
-            modelBuilder.Seed();
         }
     }
 }
