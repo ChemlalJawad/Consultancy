@@ -1,5 +1,5 @@
-﻿using Consultancy.Core.Domain;
-using Consultancy.Core.Enum;
+﻿using Consultancy.Core.Domains;
+using Consultancy.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

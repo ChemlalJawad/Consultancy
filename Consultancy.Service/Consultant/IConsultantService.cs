@@ -4,6 +4,6 @@ namespace Consultancy.Service.Consultant
 {
     public interface IConsultantService
     {
-       Core.Domain.Consultant GetHistoryMissions(int id);
+       Core.Domains.Consultant GetHistoryMissions(int id);
     }
 }

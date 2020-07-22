@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
 using Consultancy.Core.Exceptions;
-using Consultancy.Core.Const;
+using Consultancy.Core.Consts;
 using NUnit.Framework;
-using Consultancy.Core.Domain;
+using Consultancy.Core.Domains;
 using AutoFixture;
-using Consultancy.Core.Enum;
+using Consultancy.Core.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
