@@ -31,7 +31,7 @@ namespace Consultancy.API
 
             services.AddDbContext<ConsultingContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetSection("ConsultancyDatabase").Value.ToString());
+                options.UseSqlServer(Configuration.GetConnectionString("ConsultancyDatabase"));
             });
             services.AddScoped<IMissionService, MissionService>();
             services.AddScoped<IConsultantService, ConsultantService>();

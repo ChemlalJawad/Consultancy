@@ -1,6 +1,6 @@
-﻿using Consultancy.Core.Const;
-using Consultancy.Core.Domain;
-using Consultancy.Core.Enum;
+﻿using Consultancy.Core.Consts;
+using Consultancy.Core.Domains;
+using Consultancy.Core.Enums;
 using Consultancy.Core.Exceptions;
 using Consultancy.Data.Database;
 using Consultancy.Service.Mission.Request;
@@ -60,7 +60,7 @@ namespace Consultancy.Service.Mission
             return newConsultantMission;
         }
 
-        public IEnumerable<Core.Domain.Mission> GetMissions()
+        public IEnumerable<Core.Domains.Mission> GetMissions()
         {
             var missions = _consultingContext.Missions
                 .Include(m => m.ConsultantMissions)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Consultancy.Core.Const
+namespace Consultancy.Core.Consts
 {
     public class ErrorVariable
     {

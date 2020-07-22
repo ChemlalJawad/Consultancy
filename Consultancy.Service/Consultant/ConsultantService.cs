@@ -13,7 +13,7 @@ namespace Consultancy.Service.Consultant
             _consultingContext = consultingContext;
         }
 
-        public Core.Domain.Consultant GetHistoryMissions(int id)
+        public Core.Domains.Consultant GetHistoryMissions(int id)
         {
             return  _consultingContext.Consultants
                .Include(m => m.ConsultantMissions)

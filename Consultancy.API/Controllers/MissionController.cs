@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Consultancy.API.ViewModels.Mission;
-using Consultancy.Core.Domain;
+using Consultancy.Core.Domains;
 using Consultancy.Service.Mission;
 using Consultancy.Service.Mission.Request;
 using Microsoft.AspNetCore.Http;

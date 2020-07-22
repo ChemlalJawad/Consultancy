@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Consultancy.API.ViewModels.Mission;
-using Consultancy.Core.Domain;
+using Consultancy.Core.Domains;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Consultancy.API.Mapper
     {
         public MissionMapperProfile()
         {
-            CreateMap<Core.Domain.Mission, MissionProfile>()
+            CreateMap<Core.Domains.Mission, MissionProfile>()
                 .ForMember(
                   dest => dest.Consultants,
                   opt => opt.MapFrom(src => src.ConsultantMissions));

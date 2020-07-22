@@ -1,4 +1,4 @@
-﻿using Consultancy.Core.Domain;
+﻿using Consultancy.Core.Domains;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

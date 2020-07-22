@@ -1,4 +1,4 @@
-﻿using Consultancy.Core.Enum;
+﻿using Consultancy.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
