@@ -32,91 +32,21 @@ namespace Consultancy.UnitTesting
 
             var context = new ConsultingContext(options);
             context.Database.EnsureDeleted();
-            SeedDatabase(context);
+
             context.SaveChanges();
             return context;
         }
 
-        private void SeedDatabase(ConsultingContext context)
-        {
-            context.Consultants.AddRange(new List<Consultant> 
-            {
-                new Consultant
-                {
-                    Id = 21,
-                    Firstname = "Jawad",
-                    Lastname = "Chemlal",
-                    Experience = Experience.Medior
-                },
-                new Consultant
-                {
-                    Id = 22,
-                    Firstname = "Fabrice",
-                    Lastname = "Eboué",
-                    Experience = Experience.Senior
-                }
-            });
-            context.Missions.AddRange(new List<Mission>
-            {    
-                new Mission
-                {
-                    Id = 31,
-                    Name = "Genesis",
-                    MaximumRate = 600.00,
-                    ExperienceRequired = Experience.Senior
-                },
-                new Mission
-                {
-                    Id = 32,
-                    Name = "Microsoft",
-                    MaximumRate = 500.00,
-                    ExperienceRequired = Experience.Medior
-                },                
-                new Mission
-                {
-                    Id = 33,
-                    Name = "Google",
-                    MaximumRate = 400.00,
-                    ExperienceRequired = Experience.Medior
-                }
-            });
-            context.ConsultantMissions.AddRange(new List<ConsultantMission>
-            { 
-                new ConsultantMission
-                {
-                    Id =17,
-                    ConsultantId = 21,
-                    MissionId = 32,
-                    Rate = 400.00,
-                    IsActive = true,
-                    JobName = "Medior Dev"
-                },
-                 new ConsultantMission
-                {
-                    Id =18,
-                    ConsultantId = 22,
-                    MissionId = 31,
-                    Rate = 600.00,
-                    IsActive = true,
-                    JobName = "Senior Dev"
-                }, new ConsultantMission
-                {
-                    Id =19,
-                    ConsultantId = 22,
-                    MissionId = 32,
-                    Rate = 500.00,
-                    IsActive = false,
-                    JobName = "Medior Dev"
-                }
-            });
-           
-        }
         [Fact]
         public void AddConsultant_JobNameNotValidExcpetion()
         {
+            // Arrange
             var addConsultant = new AddConsultantRequest();
-                
+            
+            // Act
             Action action = () => ClassUnderTest.AddConsultant(addConsultant);
+
+            // Assert
             action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.JobnameNotExist);
             
         }
@@ -124,112 +54,181 @@ namespace Consultancy.UnitTesting
         [Fact]
         public void AddConsultant_RateNotValidExcpetion()
         {
+            // Arrange
             var addConsultant = new AddConsultantRequest
                 {
                     ConsultantId = 1,
                     MissionId = 1,
                     JobName = "Dev Lead"
                 };
+
+            // Act
             Action action = () => ClassUnderTest.AddConsultant(addConsultant);
+
+            // Assert
             action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.RateIsNotCompleted);           
         }  
         
         [Fact]
         public void AddConsultant_MissionNotValidExcpetion()
         {
+            // Arrange
             var context = InitializeContext();
-            InjectClassFor(context);
+            var consultant = fixture.Build<Consultant>().With(x => x.Id, 1).Create();
             var addConsultant = new AddConsultantRequest
                 {
-                    ConsultantId = 21,
+                    ConsultantId = 1,
                     MissionId = 20,
                     JobName = "Java Dev",
                     Rate = 400.00
                 };
+            context.Consultants.Add(consultant);
+            context.SaveChanges();
+            InjectClassFor(context);
+
+            // Act
             Action action = () => ClassUnderTest.AddConsultant(addConsultant);
+
+            // Assert
             action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.MissioNotExist);          
         }        
         
         [Fact]
         public void AddConsultant_RateHighNotValidExcpetion()
         {
+            // Arrange
             var context = InitializeContext();
-            InjectClassFor(context);
+            var consultant = fixture.Build<Consultant>().With(x => x.Id, 1).With(x => x.Experience, Experience.Medior).Create();
+            var mission = fixture.Build<Mission>().With(x => x.Id, 1).With(x => x.ExperienceRequired, Experience.Medior).With(x => x.MaximumRate, 400).Create();
             var addConsultant = new AddConsultantRequest
                 {
-                    ConsultantId = 22,
-                    MissionId = 33,
+                    ConsultantId = 1,
+                    MissionId = 1,
                     JobName = "Java Dev",
-                    Rate = 300.00
+                    Rate = 600.00
                 };
+
+            context.Consultants.Add(consultant);
+            context.Missions.Add(mission);
+            context.SaveChanges();
+            InjectClassFor(context);
+            // Act
             Action action = () => ClassUnderTest.AddConsultant(addConsultant);
+
+            // Assert
             action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.RateMaximumRequired);           
         }        
 
         [Fact]
         public void AddConsultant_ConsultantNotValidExcpetion()
         {
+            // Arrange
             var context = InitializeContext();
-            InjectClassFor(context);
+            var mission = fixture.Build<Mission>().With(x => x.Id, 2).Create();
             var addConsultant = new AddConsultantRequest
-                {
-                    ConsultantId = 40,
-                    MissionId = 31,
-                    JobName = "Java Dev",
-                    Rate = 400.00
-                };
+            {
+                ConsultantId = 20,
+                MissionId = 2,
+                JobName = "Java Dev",
+                Rate = 300.00
+            };
+
+            context.Missions.Add(mission);
+            context.SaveChanges();
+            InjectClassFor(context);
+
+            // Act
             Action action = () => ClassUnderTest.AddConsultant(addConsultant);
+
+            // Assert
             action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.ConsultantNotExist);           
         }
 
         [Fact]
         public void AddConsultant_ExperienceNotValidExcpetion()
         {
+            // Arrange
             var context = InitializeContext();
-            InjectClassFor(context);
+            var consultant = fixture.Build<Consultant>().With(x => x.Id, 10).With(x => x.Experience, Experience.Medior).Create();
+            var mission = fixture.Build<Mission>().With(x => x.Id, 1).With(x => x.ExperienceRequired, Experience.Senior).With(x => x.MaximumRate, 1000).Create();
             var addConsultant = new AddConsultantRequest
-                {
-                    ConsultantId = 21,
-                    MissionId = 31,
-                    JobName = "Java Dev",
-                    Rate = 400.00
-                };
+            {
+                ConsultantId = 10,
+                MissionId = 1,
+                JobName = "Java Dev",
+                Rate = 400.00
+            };
+
+            context.Consultants.Add(consultant);
+            context.Missions.Add(mission);
+            context.SaveChanges();
+            InjectClassFor(context);
+
+            // Act
             Action action = () => ClassUnderTest.AddConsultant(addConsultant);
+
+            // Assert
             action.Should().ThrowExactly<NotValidException>().WithMessage(ErrorVariable.ExperienceMinimumRequired);            
         }
 
         [Fact]
         public void AddConsultant_LastMissionNeedToBeFalse()
         {
+            // Arrange
             var context = InitializeContext();
-            InjectClassFor(context);
+            var consultant = fixture.Build<Consultant>().With(x => x.Id, 21).With(x => x.Experience, Experience.Medior).Create();
+            var mission = fixture.Build<Mission>().With(x => x.Id, 11).With(x => x.ExperienceRequired, Experience.Junior).With(x => x.MaximumRate, 1000).Create();
             var addConsultant = new AddConsultantRequest
             {
                 ConsultantId = 21,
-                MissionId = 33,
-                JobName = "Dev Lead",
+                MissionId = 11,
+                JobName = "Java Dev",
                 Rate = 400.00
             };
+            var consultantMissions = new List<ConsultantMission> { new ConsultantMission { IsActive = true }, new ConsultantMission { IsActive = false } };
             
+            consultant.ConsultantMissions = consultantMissions;
+            mission.ConsultantMissions = consultantMissions;
+            context.Consultants.Add(consultant);
+            context.Missions.Add(mission);
+            context.SaveChanges();
+            InjectClassFor(context);
+
+            // Act
             var result = ClassUnderTest.AddConsultant(addConsultant);
+
+            // Assert
             result.Consultant.ConsultantMissions.Where(x => x.IsActive).Count().Should().Be(1);
         }    
         [Fact]
         public void AddConsultant_IsValid()
         {
+            // Arrange
             var context = InitializeContext();
-            InjectClassFor(context);
+            var consultant = fixture.Build<Consultant>().With(x => x.Id, 40).With(x => x.Experience, Experience.Medior).Create();
+            var mission = fixture.Build<Mission>().With(x => x.Id,40).With(x => x.ExperienceRequired, Experience.Junior).With(x => x.MaximumRate, 1000).Create();
+            var consultantMissions = new List<ConsultantMission> { new ConsultantMission { IsActive = true }, new ConsultantMission { IsActive = false } };
             var addConsultant = new AddConsultantRequest
                 {
-                    ConsultantId = 22,
-                    MissionId = 33,
+                    ConsultantId = 40,
+                    MissionId = 40,
                     JobName = "Dev Lead",
                     Rate = 400.00
                 };
-    
+
+            consultant.ConsultantMissions = consultantMissions;
+            mission.ConsultantMissions = consultantMissions;
+            context.Consultants.Add(consultant);
+            context.Missions.Add(mission);
+            context.SaveChanges();
+            InjectClassFor(context);
+
+            // Act
             var result = ClassUnderTest.AddConsultant(addConsultant);
-            result.ConsultantId.Should().Be(22);
-            result.MissionId.Should().Be(33);
+
+            // Assert
+            result.ConsultantId.Should().Be(40);
+            result.MissionId.Should().Be(40);
             result.IsActive.Should().Be(true);
             result.Rate.Should().Be(400.00);     
         }

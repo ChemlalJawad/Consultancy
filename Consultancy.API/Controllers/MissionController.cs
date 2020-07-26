@@ -29,14 +29,9 @@ namespace Consultancy.API.Controllers
         public ActionResult<IEnumerable<GetMissionsProfile>> GetMissions()
         {
             var missions = _missionService.GetMissions();
-            
-            foreach(var item in missions.ToList()) 
-            {
-                item.ConsultantMissions = item.ConsultantMissions.Where(e => e.IsActive).ToList();
-            }
             var missionModel = new GetMissionsProfile()
             {
-                Missions = _mapper.Map<List<MissionProfile>>(missions)
+                Missions = _mapper.Map<List<GetMissionsProfile.MissionProfile>>(missions)
             };
 
             return Ok(missionModel);

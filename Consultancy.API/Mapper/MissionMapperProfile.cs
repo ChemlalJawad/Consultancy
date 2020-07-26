@@ -12,12 +12,12 @@ namespace Consultancy.API.Mapper
     {
         public MissionMapperProfile()
         {
-            CreateMap<Core.Domains.Mission, MissionProfile>()
+            CreateMap<Core.Domains.Mission, GetMissionsProfile.MissionProfile>()
                 .ForMember(
                   dest => dest.Consultants,
                   opt => opt.MapFrom(src => src.ConsultantMissions));
 
-            CreateMap<ConsultantMission, ConsultantProfile>()
+            CreateMap<ConsultantMission, GetMissionsProfile.MissionProfile.ConsultantProfile>()
                 .ForMember(
                     dest => dest.Lastname,
                     opt => opt.MapFrom(src => src.Consultant.Lastname))

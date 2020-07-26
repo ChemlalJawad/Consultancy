@@ -37,7 +37,7 @@ namespace Consultancy.Service.Mission
                 [Experience.Medior] = 1.10,
                 [Experience.Senior] = 1.05
             };
-            if (mission.MaximumRate > (consultant.Rate * commissions.GetValueOrDefault(consult.Experience))) throw new NotValidException(ErrorVariable.RateMaximumRequired);
+            if (mission.MaximumRate < (consultant.Rate * commissions.GetValueOrDefault(consult.Experience))) throw new NotValidException(ErrorVariable.RateMaximumRequired);
 
             var lastMissionConsult = _consultingContext.ConsultantMissions
                 .Where(e => e.ConsultantId == consultant.ConsultantId)
@@ -66,7 +66,12 @@ namespace Consultancy.Service.Mission
                 .Include(m => m.ConsultantMissions)
                 .ThenInclude(cm => cm.Consultant)
                 .ToList();
-                
+
+            foreach (var mission in missions)
+            {
+                mission.ConsultantMissions = mission.ConsultantMissions.Where(e => e.IsActive).ToList();
+            }
+
             return missions;
         }
     }
