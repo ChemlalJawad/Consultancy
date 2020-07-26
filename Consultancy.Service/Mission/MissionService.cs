@@ -66,7 +66,12 @@ namespace Consultancy.Service.Mission
                 .Include(m => m.ConsultantMissions)
                 .ThenInclude(cm => cm.Consultant)
                 .ToList();
-                
+
+            foreach (var item in missions)
+            {
+                item.ConsultantMissions = item.ConsultantMissions.Where(e => e.IsActive).ToList();
+            }
+
             return missions;
         }
     }
