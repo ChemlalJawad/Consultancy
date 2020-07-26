@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Consultancy.Data.Migrations
 {
     [DbContext(typeof(ConsultingContext))]
-    [Migration("20200726112609_Redesign")]
-    partial class Redesign
+    [Migration("20200726122715_LastDesign")]
+    partial class LastDesign
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -2,7 +2,7 @@
 
 namespace Consultancy.Data.Migrations
 {
-    public partial class Redesign : Migration
+    public partial class LastDesign : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
