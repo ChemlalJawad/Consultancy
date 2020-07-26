@@ -41,7 +41,7 @@ namespace Consultancy.API.ViewModels.Mission
                 var total = 0.00;
                 foreach (var consultant in Consultants)
                 {
-                    total += consultant.Rate *consultant.Commission;
+                    total += consultant.Commission;
                 }
                 return Math.Round(total, 2);
 

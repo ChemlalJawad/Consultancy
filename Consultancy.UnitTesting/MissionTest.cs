@@ -201,6 +201,36 @@ namespace Consultancy.UnitTesting
             result.Consultant.ConsultantMissions.Where(x => x.IsActive).Count().Should().Be(1);
         }    
         [Fact]
+        public void AddConsultant_CommissionTest()
+        {
+            // Arrange
+            var context = InitializeContext();
+            var consultant = fixture.Build<Consultant>().With(x => x.Id, 100).With(x => x.Experience, Experience.Medior).Create();
+            var mission = fixture.Build<Mission>().With(x => x.Id, 29).With(x => x.ExperienceRequired, Experience.Junior).With(x => x.MaximumRate, 1000).Create();
+            var addConsultant = new AddConsultantRequest
+            {
+                ConsultantId = 100,
+                MissionId = 29,
+                JobName = "C# .Net Dev",
+                Rate = 400.00
+            };
+            var consultantMissions = new List<ConsultantMission> { new ConsultantMission { IsActive = true }, new ConsultantMission { IsActive = false } };
+            
+            consultant.ConsultantMissions = consultantMissions;
+            mission.ConsultantMissions = consultantMissions;
+            context.Consultants.Add(consultant);
+            context.Missions.Add(mission);
+            context.SaveChanges();
+            InjectClassFor(context);
+
+            // Act
+            var result = ClassUnderTest.AddConsultant(addConsultant);
+
+            // Assert
+            result.Consultant.ConsultantMissions.Where(x => x.IsActive).Count().Should().Be(1);
+            result.Consultant.ConsultantMissions.Where(x => x.IsActive).FirstOrDefault().Commission.Should().Be(440.00);
+        }    
+        [Fact]
         public void AddConsultant_IsValid()
         {
             // Arrange

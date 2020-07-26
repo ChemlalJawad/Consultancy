@@ -5,6 +5,7 @@ using Consultancy.Core.Exceptions;
 using Consultancy.Data.Database;
 using Consultancy.Service.Mission.Request;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -47,7 +48,7 @@ namespace Consultancy.Service.Mission
                 IsActive = true,
                 JobName = consultant.JobName,
                 Rate = consultant.Rate,
-                Commission = GetCommission(consult.Experience)
+                Commission = Math.Round((GetCommission(consult.Experience) * consultant.Rate),2)
             };
 
             _consultingContext.ConsultantMissions.Add(newConsultantMission);
