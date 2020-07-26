@@ -36,7 +36,7 @@ namespace Consultancy.API.Controllers
             }
             var missionModel = new GetMissionsProfile()
             {
-                Missions = _mapper.Map<List<MissionProfile>>(missions)
+                Missions = _mapper.Map<List<GetMissionsProfile.MissionProfile>>(missions)
             };
 
             return Ok(missionModel);
