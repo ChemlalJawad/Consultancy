@@ -43,7 +43,7 @@ namespace Consultancy.Service.Mission
                 .Where(e => e.ConsultantId == consultant.ConsultantId)
                 .SingleOrDefault(e => e.IsActive);
 
-            lastMissionConsult.IsActive = false;
+            if (lastMissionConsult != null) { lastMissionConsult.IsActive = false; }
 
             var newConsultantMission = new ConsultantMission
             {

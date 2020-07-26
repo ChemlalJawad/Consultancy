@@ -20,5 +20,4 @@ namespace Consultancy.API.ViewModels.Consultant
             public bool IsActive { get; set; }
         }
     }
-
 }

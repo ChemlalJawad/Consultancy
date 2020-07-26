@@ -29,7 +29,6 @@ namespace Consultancy.API
                     logger.LogError(ex, "An error occurred creating the DB.");
                 }
             }
-
             host.Run();
         }
 

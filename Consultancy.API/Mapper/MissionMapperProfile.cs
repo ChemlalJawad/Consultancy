@@ -27,7 +27,6 @@ namespace Consultancy.API.Mapper
                 .ForMember(
                     dest => dest.Experience,
                     opt => opt.MapFrom(src => src.Consultant.Experience));
-        }
-    
+        }    
     }
 }
