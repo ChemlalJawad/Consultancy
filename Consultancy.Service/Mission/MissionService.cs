@@ -32,8 +32,13 @@ namespace Consultancy.Service.Mission
             if (consult == null) throw new NotValidException(ErrorVariable.ConsultantNotExist);
 
             if (mission.ExperienceRequired > consult.Experience) throw new NotValidException(ErrorVariable.ExperienceMinimumRequired);
-            
-            if (mission.MaximumRate < (consultant.Rate * GetCommission(consult.Experience))) throw new NotValidException(ErrorVariable.RateMaximumRequired);
+            var commissions = new Dictionary<Experience, double>
+            {
+                [Experience.Junior] = 1.15,
+                [Experience.Medior] = 1.10,
+                [Experience.Senior] = 1.05
+            };
+            if (mission.MaximumRate < (consultant.Rate * commissions.GetValueOrDefault(consult.Experience))) throw new NotValidException(ErrorVariable.RateMaximumRequired);
 
             var lastMissionConsult = _consultingContext.ConsultantMissions
                 .Where(e => e.ConsultantId == consultant.ConsultantId)
@@ -48,7 +53,7 @@ namespace Consultancy.Service.Mission
                 IsActive = true,
                 JobName = consultant.JobName,
                 Rate = consultant.Rate,
-                Commission = Math.Round((GetCommission(consult.Experience) * consultant.Rate),2)
+                Commission = Math.Round((commissions.GetValueOrDefault(consult.Experience) * consultant.Rate),2)
             };
 
             _consultingContext.ConsultantMissions.Add(newConsultantMission);
@@ -70,17 +75,6 @@ namespace Consultancy.Service.Mission
             }
 
             return missions;
-        }
-        private double GetCommission(Experience exp)
-        {
-            var commissions = new Dictionary<Experience, double>
-            {
-                [Experience.Junior] = 1.15,
-                [Experience.Medior] = 1.10,
-                [Experience.Senior] = 1.05
-            };
-
-            return commissions.GetValueOrDefault(exp);
         }
     }
 }
