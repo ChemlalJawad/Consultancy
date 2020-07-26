@@ -14,5 +14,6 @@ namespace Consultancy.Core.Domains
         public double Rate { get; set; }
         public string JobName { get; set; }
         public bool IsActive { get; set; }
+        public double Commission { get; set; }
     }
 }

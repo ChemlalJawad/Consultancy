@@ -25,6 +25,9 @@ namespace Consultancy.API.Mapper
                     dest => dest.Firstname,
                     opt => opt.MapFrom(src => src.Consultant.Firstname))
                 .ForMember(
+                    dest => dest.Commission,
+                    opt => opt.MapFrom(src => src.Commission))
+                .ForMember(
                     dest => dest.Experience,
                     opt => opt.MapFrom(src => src.Consultant.Experience));
         }    

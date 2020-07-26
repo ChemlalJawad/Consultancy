@@ -10,5 +10,6 @@ namespace Consultancy.Service.Mission.Request
         public int MissionId { get; set; }
         public double Rate { get; set; }
         public string JobName { get; set; }
+        public double Commission { get; set; }
     }
 }

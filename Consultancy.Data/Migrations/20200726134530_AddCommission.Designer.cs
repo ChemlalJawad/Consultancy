@@ -3,14 +3,16 @@ using Consultancy.Data.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Consultancy.Data.Migrations
 {
     [DbContext(typeof(ConsultingContext))]
-    partial class ConsultingContextModelSnapshot : ModelSnapshot
+    [Migration("20200726134530_AddCommission")]
+    partial class AddCommission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

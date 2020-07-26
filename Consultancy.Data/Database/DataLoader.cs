@@ -68,7 +68,8 @@ namespace Consultancy.Data.Database
                         MissionId = 3,
                         Rate = 400.00,
                         IsActive = true,
-                        JobName = "Dev"
+                        JobName = "Dev",
+                        Commission = 1.10
                     },
                     new ConsultantMission
                     {
@@ -77,7 +78,8 @@ namespace Consultancy.Data.Database
                         MissionId = 1,
                         Rate = 400.00,
                         IsActive = true,
-                        JobName = "Consultant"
+                        JobName = "Consultant",
+                        Commission = 1.05
                     },
                     new ConsultantMission
                     {
@@ -86,7 +88,8 @@ namespace Consultancy.Data.Database
                         Rate = 400.00,
                         MissionId = 3,
                         IsActive = false,
-                        JobName = "Dev"
+                        JobName = "Dev",
+                        Commission = 1.05
 
                     },
                     new ConsultantMission
@@ -96,7 +99,8 @@ namespace Consultancy.Data.Database
                         Rate = 400.00,
                         MissionId = 2,
                         IsActive = false,
-                        JobName = "Dev"
+                        JobName = "Dev",
+                        Commission = 1.15
                     },
                     new ConsultantMission
                     {
@@ -105,7 +109,9 @@ namespace Consultancy.Data.Database
                         MissionId = 3,
                         Rate = 500.00,
                         IsActive = true,
-                        JobName = "Dev"
+                        JobName = "Dev",
+                        Commission = 1.15
+
                     },
                     new ConsultantMission
                     {
@@ -114,7 +120,8 @@ namespace Consultancy.Data.Database
                         MissionId = 1,
                         Rate = 400.00,
                         IsActive = false,
-                        JobName = "Dev"
+                        JobName = "Dev",
+                        Commission = 1.15
                     }
                 });
                             

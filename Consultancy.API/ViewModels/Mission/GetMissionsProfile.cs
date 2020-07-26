@@ -37,17 +37,11 @@ namespace Consultancy.API.ViewModels.Mission
             public List<ConsultantProfile> Consultants { get; set; }
 
             public double GetDailyIncome()
-            {
-                var commissions = new Dictionary<Experience, double>
-                {
-                    [Experience.Junior] = 1.15,
-                    [Experience.Medior] = 1.10,
-                    [Experience.Senior] = 1.05,
-                };
+            {             
                 var total = 0.00;
                 foreach (var consultant in Consultants)
                 {
-                    total += consultant.Rate * commissions.GetValueOrDefault(consultant.Experience);
+                    total += consultant.Rate *consultant.Commission;
                 }
                 return Math.Round(total, 2);
 
@@ -71,6 +65,7 @@ namespace Consultancy.API.ViewModels.Mission
                 public Experience Experience { get; set; }
                 public double Rate { get; set; }
                 public string JobName { get; set; }
+                public double Commission { get; set; }
             }
         }
     }
