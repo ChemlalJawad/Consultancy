@@ -11,7 +11,6 @@ namespace Consultancy.API.ViewModels.Mission
         public double TotalIncome => GetTotalIncome();
         public double TotalProfit => GetTotalProfit();
         public List<MissionProfile> Missions { get; set; }
-
         public double GetTotalIncome()
         {
             var total = 0.00;
@@ -30,7 +29,6 @@ namespace Consultancy.API.ViewModels.Mission
             }
             return Math.Round(total, 2);
         }
-
         public class MissionProfile
         {
             public int ConsultantNumber => Consultants.Count();
